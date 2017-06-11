@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="b12928f1-b271-49a3-8db1-e70e876fc802" name="AbsenceManager" url="http://absencemanager.tk">
+        <fileTransfer host="absencemanager.tk" port="22" rootFolder="/var/www/absence" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
