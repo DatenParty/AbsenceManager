@@ -34,6 +34,9 @@
         <style>
             body {
                 font-family: Roboto;
+                background: url("img/background.jpg");
+                background-size: cover;
+                color: white;
             }
 
             .center {
@@ -47,7 +50,7 @@
             .content {
                 border: solid 2px black;
                 width: 600px;
-                height: 400px;
+                height: 450px;
                 box-sizing: border-box;
                 padding: 20px;
                 margin: 10vh auto;
@@ -60,17 +63,17 @@
 
             input[type='submit'] {
                 width: 150px;
-                height: 40px;
-                background-color: black;
+                height: 50px;
+                background-color: transparent;
                 color: white;
-                cursor: pointer;
                 font-size: 12pt;
                 transition: 0.3s;
-                border: none;
+                border: 2px solid black;
             }
 
             .enabled input[type='submit']:hover {
-                box-shadow: 5px 5px 10px #888;
+                background-color: black;
+                cursor: pointer;
             }
         </style>
 	</head>
@@ -79,8 +82,10 @@
             <h1 class="center">
                 Login erforderlich
             </h1>
-            <br>
             <form method="post" action="login.php">
+                <label for="school">Schule</label>
+                <input type="text" id="school" name="school">
+                <br><br>
                 <label for="username">Benutzername</label>
                 <input type="text" id="username" name="username">
                 <br><br>
