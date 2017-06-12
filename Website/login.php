@@ -1,8 +1,8 @@
 <?php
-function test_input($data) {
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
+session_start();
+$teacher = $_SESSION["login-data"];
+if ($teacher["status"] == "admin") header("Location: admin.php");
+else if ($teacher["status"] == "it") header("Location: it.php");
+else {
+    echo "Als " . $teacher["name"] . " (Lehrer) eingeloggt";
 }
-echo "<h1 style='text-align: center'>Willkommen, " . test_input($_POST["username"]) . "</h1>";

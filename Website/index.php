@@ -1,3 +1,4 @@
+<?php session_start();?>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -7,6 +8,8 @@
 
         <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
         <script>
+            //red: #FC0025
+            //green: #3EDD60
             $(document).ready(function () {
                 disable();
                 $("input:not(input[type='submit'])").on("input", function () {
@@ -71,7 +74,7 @@
             }
 
             input[type='submit']:hover, input[type='button']:hover {
-                background-color: #FC0025;
+                background-color: #3EDD60;
                 border: none;
             }
 
@@ -108,6 +111,7 @@
                 Login erforderlich
             </h1>
             <?php
+                $teacher = find_account(test_input($_POST["school"]), test_input($_POST["username"]), test_input($_POST["password"]));
                 if (!isset($_POST["school"], $_POST["username"], $_POST["password"])) {
             ?>
                     <p id="errormsg">Bitte füllen Sie alle Felder aus.</p>
@@ -124,10 +128,9 @@
                         <div class="center" id="button-container"><input type="button" id="login" value="Login"></div>
                     </form>
             <?php
-                } else if (find_account(test_input($_POST["school"]), test_input($_POST["username"]), test_input($_POST["password"])) != "") {
-            ?>
-                <p class="center">Zugang erfolgreich</p>
-            <?php
+                } else if ($teacher != "") {
+                    $_SESSION["login-data"] = $teacher;
+                    echo "<body onload='window.location.href = \"login.php\"'></body>";
                 } else {
             ?>
                     <p style="color: red">Ihr Account konnte entweder nicht gefunden werden, oder Ihr Passwort war falsch.</p>
