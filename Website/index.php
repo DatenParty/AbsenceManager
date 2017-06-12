@@ -10,9 +10,15 @@
             $(document).ready(function () {
                 disable();
                 $("input:not(input[type='submit'])").on("input", function () {
-                    if(isNotEmpty()) $("input[type='submit']")[0].disabled = false;
+                    if(isNotEmpty()) $("#login").attr("type", "submit");
                     else disable();
                 });
+
+                $("#login").click(function () {
+                    if ($(this).attr("type") === "button")
+                        $("#errormsg").css({opacity: 1});
+                });
+
             });
 
             function isNotEmpty() {
@@ -24,12 +30,8 @@
             }
 
             function disable() {
-                $("input[type='submit']")[0].disabled = true;
+                $("#login").attr("type", "button");
             }
-
-            $("input[type='submit']").click(function () {
-                if($(this)[0].disabled) $("#errormsg").css({opacity: 1});
-            });
         </script>
         <style>
             body {
@@ -57,7 +59,7 @@
                 margin-bottom: 20px;
             }
 
-            input[type='submit'] {
+            input[type='submit'], input[type='button'] {
                 width: 150px;
                 height: 50px;
                 background-color: transparent;
@@ -68,13 +70,14 @@
                 cursor: pointer;
             }
 
-            input[type='submit']:hover {
-                background-color: black;
+            input[type='submit']:hover, input[type='button']:hover {
+                background-color: #FC0025;
                 border: none;
             }
 
             #errormsg {
                 opacity: 0;
+                text-align: center;
             }
         </style>
 	</head>
@@ -88,11 +91,14 @@
 
         function find_account($school, $username, $password) {
             $list = json_decode(file_get_contents("login.json"), true);
-            foreach ($list as $key => $value)
-                if ($key == $school) {
-                    foreach ($school as $teacher)
-                        if ($teacher["username"] == $username && $teacher["password"] == $password) return $teacher;
-                }
+            foreach ($list as $val) {
+                foreach ($val as $key => $value)
+                    if ($key == $school) {
+                        foreach ($value as $teacher) {
+                            if ($teacher["username"] == $username && $teacher["password"] == $password) return $teacher;
+                        }
+                    }
+            }
             return "";
         }
     ?>
@@ -102,9 +108,9 @@
                 Login erforderlich
             </h1>
             <?php
-                if (isset($_POST["school"], $_POST["username"], $_POST["password"])) {
+                if (!isset($_POST["school"], $_POST["username"], $_POST["password"])) {
             ?>
-                    <p id="errormsg">Bitte füllen Sie alle Felder aus</p>
+                    <p id="errormsg">Bitte füllen Sie alle Felder aus.</p>
                     <form method="post" action="index.php">
                         <label for="school">Schule</label>
                         <input type="text" id="school" name="school">
@@ -115,27 +121,26 @@
                         <label for="password">Passwort</label>
                         <input type="password" id="password" name="password">
 
-                        <div class="center" id="button-container"><input type="submit" value="Login"></div>
+                        <div class="center" id="button-container"><input type="button" id="login" value="Login"></div>
                     </form>
             <?php
                 } else if (find_account(test_input($_POST["school"]), test_input($_POST["username"]), test_input($_POST["password"])) != "") {
             ?>
-
+                <p class="center">Zugang erfolgreich</p>
             <?php
                 } else {
             ?>
-                    <p style="color: red">Ihr Account konnte entweder nicht gefunden werden, oder Ihr Passwort war falsch</p>
+                    <p style="color: red">Ihr Account konnte entweder nicht gefunden werden, oder Ihr Passwort war falsch.</p>
                     <form method="post" action="index.php">
                         <label for="school">Schule</label>
                         <input type="text" id="school" name="school">
-                        <br><br>
+
                         <label for="username">Benutzername</label>
                         <input type="text" id="username" name="username">
-                        <br><br>
+
                         <label for="password">Passwort</label>
                         <input type="password" id="password" name="password">
-                        <br><br>
-                        <div class="center enabled" id="button-container"><input type="submit" value="Login"></div>
+                        <div class="center" id="button-container"><input type="submit" id="login" value="Login"></div>
                     </form>
             <?php
                 }
