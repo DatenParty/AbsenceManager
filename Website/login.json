@@ -1,1 +1,16 @@
-[{"Christianeum": [{}]}, {"Gymnasium JH": [{"name": "Collin Alpert", "username": "collinalpert", "password": "test123", "status": "teacher"}, {"name": "Malte Schink", "username": "maschini", "password": "test123"}]}]
+[
+  {"Christianeum": [
+    {"name": "Lisa Oertel", "username": "lisaoertel", "password": "test123", "status": "teacher"},
+    {"name": "Stephan Prigge", "username": "stephanprigge", "password": "test123", "status": "admin"},
+    {"name": "Frank Schönian", "username": "frankschönian", "password": "test123", "status": "teacher"},
+    {"name": "Andreas Bock", "username": "andreasbock", "password": "test123", "status": "it"}
+  ]},
+  {"Gymnasium JH": [
+    {"name": "Collin Alpert", "username": "collinalpert", "password": "test123", "status": "teacher"},
+    {"name": "Malte Schink", "username": "maschini", "password": "test123", "status": "admin"},
+    {"name": "IT Admin", "username": "itadmin", "password": "test123", "status": "it"}
+  ]},
+  {"Test": [
+    {"name": "Dummy Test", "username": "dummytest", "password": "test123", "status": "teacher"}
+  ]}
+]

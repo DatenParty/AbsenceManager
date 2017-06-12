@@ -77,23 +77,46 @@
             }
         </style>
 	</head>
+    <?php
+        function test_input($data) {
+            $data = trim($data);
+            $data = stripslashes($data);
+            $data = htmlspecialchars($data);
+            return $data;
+        }
+
+        function find_account($school, $username, $password) {
+            $json = json_decode(file_get_contents("login.json"), true);
+            return true;
+        }
+    ?>
 	<body>
 		<div class="content">
             <h1 class="center">
                 Login erforderlich
             </h1>
-            <form method="post" action="login.php">
-                <label for="school">Schule</label>
-                <input type="text" id="school" name="school">
-                <br><br>
-                <label for="username">Benutzername</label>
-                <input type="text" id="username" name="username">
-                <br><br>
-                <label for="password">Passwort</label>
-                <input type="password" id="password" name="password">
-                <br><br>
-                <div class="center enabled" id="button-container"><input type="submit" value="Login"></div>
-            </form>
+            <?php
+                if (isset($_POST["school"], $_POST["username"], $_POST["password"])) {
+            ?>
+                    <form method="post" action="index.php">
+                        <label for="school">Schule</label>
+                        <input type="text" id="school" name="school">
+                        <br><br>
+                        <label for="username">Benutzername</label>
+                        <input type="text" id="username" name="username">
+                        <br><br>
+                        <label for="password">Passwort</label>
+                        <input type="password" id="password" name="password">
+                        <br><br>
+                        <div class="center enabled" id="button-container"><input type="submit" value="Login"></div>
+                    </form>
+            <?php
+                } else if (find_account(test_input($_POST["school"]), test_input($_POST["username"]), test_input($_POST["password"]))) {
+            ?>
+
+            <?php
+                }
+            ?>
         </div>
 	</body>
 </html>
