@@ -10,10 +10,7 @@
             $(document).ready(function () {
                 disable();
                 $("input:not(input[type='submit'])").on("input", function () {
-                    if(isNotEmpty()) {
-                        $("input[type='submit']").removeClass("disabled")[0].disabled = false;
-                        $("#button-container").addClass("enabled");
-                    }
+                    if(isNotEmpty()) $("input[type='submit']")[0].disabled = false;
                     else disable();
                 });
             });
@@ -27,9 +24,12 @@
             }
 
             function disable() {
-                $("input[type='submit']").addClass("disabled")[0].disabled = true;
-                $("#button-container").removeClass("enabled");
+                $("input[type='submit']")[0].disabled = true;
             }
+
+            $("input[type='submit']").click(function () {
+                if($(this)[0].disabled) $("#errormsg").css({opacity: 1});
+            });
         </script>
         <style>
             body {
@@ -43,22 +43,18 @@
                 text-align: center;
             }
 
-            .disabled {
-                opacity: 0.5;
-            }
-
             .content {
-                border: solid 2px black;
                 width: 600px;
-                height: 450px;
+                height: 500px;
                 box-sizing: border-box;
                 padding: 20px;
-                margin: 10vh auto;
+                margin: calc(50vh - 285px) auto 0 auto;
             }
 
             input {
                 width: 100%;
                 height: 25px;
+                margin-bottom: 20px;
             }
 
             input[type='submit'] {
@@ -68,12 +64,17 @@
                 color: white;
                 font-size: 12pt;
                 transition: 0.3s;
-                border: 2px solid black;
+                border: 2px solid white;
+                cursor: pointer;
             }
 
-            .enabled input[type='submit']:hover {
+            input[type='submit']:hover {
                 background-color: black;
-                cursor: pointer;
+                border: none;
+            }
+
+            #errormsg {
+                opacity: 0;
             }
         </style>
 	</head>
@@ -86,8 +87,13 @@
         }
 
         function find_account($school, $username, $password) {
-            $json = json_decode(file_get_contents("login.json"), true);
-            return true;
+            $list = json_decode(file_get_contents("login.json"), true);
+            foreach ($list as $key => $value)
+                if ($key == $school) {
+                    foreach ($school as $teacher)
+                        if ($teacher["username"] == $username && $teacher["password"] == $password) return $teacher;
+                }
+            return "";
         }
     ?>
 	<body>
@@ -98,6 +104,27 @@
             <?php
                 if (isset($_POST["school"], $_POST["username"], $_POST["password"])) {
             ?>
+                    <p id="errormsg">Bitte füllen Sie alle Felder aus</p>
+                    <form method="post" action="index.php">
+                        <label for="school">Schule</label>
+                        <input type="text" id="school" name="school">
+
+                        <label for="username">Benutzername</label>
+                        <input type="text" id="username" name="username">
+
+                        <label for="password">Passwort</label>
+                        <input type="password" id="password" name="password">
+
+                        <div class="center" id="button-container"><input type="submit" value="Login"></div>
+                    </form>
+            <?php
+                } else if (find_account(test_input($_POST["school"]), test_input($_POST["username"]), test_input($_POST["password"])) != "") {
+            ?>
+
+            <?php
+                } else {
+            ?>
+                    <p style="color: red">Ihr Account konnte entweder nicht gefunden werden, oder Ihr Passwort war falsch</p>
                     <form method="post" action="index.php">
                         <label for="school">Schule</label>
                         <input type="text" id="school" name="school">
@@ -110,10 +137,6 @@
                         <br><br>
                         <div class="center enabled" id="button-container"><input type="submit" value="Login"></div>
                     </form>
-            <?php
-                } else if (find_account(test_input($_POST["school"]), test_input($_POST["username"]), test_input($_POST["password"]))) {
-            ?>
-
             <?php
                 }
             ?>
