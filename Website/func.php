@@ -21,13 +21,28 @@ function find_account($school, $username, $password) {
     return "";
 }
 
+function get_all($school) {
+    $array = "";
+    $list = json_decode(file_get_contents("login.json"), true);
+    foreach ($list as $val) {
+        foreach ($val as $key => $value) {
+            if ($key == $school) {
+                $array = array_filter($value, function ($e) {
+                    return $e["status"] == "teacher" || $e["status"] == "admin";
+                });
+            }
+        }
+    }
+    return $array;
+}
+
 function get_all_teachers($school) {
     $array = "";
     $list = json_decode(file_get_contents("login.json"), true);
     foreach ($list as $val) {
         foreach ($val as $key => $value) {
             if ($key == $school) {
-                $array = array_filter($value, function ($e) {return $e["status"] == "teacher";});
+                $array = array_filter($value, function ($e) use ($school) {return $e["status"] == "teacher";});
             }
         }
     }

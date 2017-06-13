@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Login</title>
+		<title>AbsenceManager (2)</title>
 		<meta charset="UTF-8">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
 
@@ -88,12 +88,16 @@
         require_once "func.php";
     ?>
 	<body>
+        <h1 style="position: absolute; top: 20px; left: 20px; font-family: 'Amethyst">
+            AbsenceManager
+        </h1>
 		<div class="content">
             <h1 class="center">
                 Login erforderlich
             </h1>
             <?php
-                $teacher = find_account(test_input($_POST["school"]), test_input($_POST["username"]), test_input($_POST["password"]));
+                $school = test_input($_POST["school"]);
+                $staff = find_account($school, test_input($_POST["username"]), test_input($_POST["password"]));
                 if (!isset($_POST["school"], $_POST["username"], $_POST["password"])) {
             ?>
                     <p id="errormsg">Bitte füllen Sie alle Felder aus.</p>
@@ -110,10 +114,20 @@
                         <div class="center" id="button-container"><input type="button" id="login" value="Login"></div>
                     </form>
             <?php
-                } else if ($teacher != "") {
-                    if ($teacher["status"] == "admin")
-                    $_SESSION["login-data"] = $teacher;
-                    echo "<body onload='window.location.href = \"login.php\"'></body>";
+                } else if ($staff != "") {
+                    $status = array($staff)[0]["status"];
+                    if ($status == "admin") {
+                        $_SESSION["login-data"] = $staff;
+                        $_SESSION["additional-data"] = get_all_teachers($school);
+                        echo "<body onload='window.location.href = \"admin\"'></body>";
+                    } else if ($status == "it") {
+                        $_SESSION["login-data"] = $staff;
+                        $_SESSION["additional-data"] = get_all($school);
+                        echo "<body onload='window.location.href = \"management\"'></body>";
+                    } else {
+                        $_SESSION["login-data"] = $staff;
+                        echo "<body onload='document.location.href = \"teacher\"'></body>";
+                    }
                 } else {
             ?>
                     <p style="color: red">Ihr Account konnte entweder nicht gefunden werden, oder Ihr Passwort war falsch.</p>
