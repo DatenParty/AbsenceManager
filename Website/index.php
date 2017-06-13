@@ -85,25 +85,7 @@
         </style>
 	</head>
     <?php
-        function test_input($data) {
-            $data = trim($data);
-            $data = stripslashes($data);
-            $data = htmlspecialchars($data);
-            return $data;
-        }
-
-        function find_account($school, $username, $password) {
-            $list = json_decode(file_get_contents("login.json"), true);
-            foreach ($list as $val) {
-                foreach ($val as $key => $value)
-                    if ($key == $school) {
-                        foreach ($value as $teacher) {
-                            if ($teacher["username"] == $username && $teacher["password"] == $password) return $teacher;
-                        }
-                    }
-            }
-            return "";
-        }
+        require_once "func.php";
     ?>
 	<body>
 		<div class="content">
@@ -129,6 +111,7 @@
                     </form>
             <?php
                 } else if ($teacher != "") {
+                    if ($teacher["status"] == "admin")
                     $_SESSION["login-data"] = $teacher;
                     echo "<body onload='window.location.href = \"login.php\"'></body>";
                 } else {
