@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>AbsenceManager (2)</title>
+		<title>Login</title>
 		<meta charset="UTF-8">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
 
@@ -82,15 +82,20 @@
                 opacity: 0;
                 text-align: center;
             }
+
+            @font-face {
+                font-family: Logo;
+                src: url(res/Amethyst.ttf.woff);
+            }
         </style>
 	</head>
     <?php
         require_once "func.php";
     ?>
 	<body>
-        <h1 style="position: absolute; top: 20px; left: 20px; font-family: 'Amethyst">
+        <div style="position: absolute; top: 40px; left: 30px; font-family: 'Logo'; font-size: 25pt">
             AbsenceManager
-        </h1>
+        </div>
 		<div class="content">
             <h1 class="center">
                 Login erforderlich
@@ -120,7 +125,7 @@
                         $_SESSION["login-data"] = $staff;
                         $_SESSION["additional-data"] = get_all_teachers($school);
                         echo "<body onload='window.location.href = \"admin\"'></body>";
-                    } else if ($status == "it") {
+                    } else if ($status == "management") {
                         $_SESSION["login-data"] = $staff;
                         $_SESSION["additional-data"] = get_all($school);
                         echo "<body onload='window.location.href = \"management\"'></body>";
@@ -130,7 +135,7 @@
                     }
                 } else {
             ?>
-                    <p style="color: red">Ihr Account konnte entweder nicht gefunden werden, oder Ihr Passwort war falsch.</p>
+                    <p style="color: #FC0025">Ihr Account konnte entweder nicht gefunden werden, oder Ihr Passwort war falsch.</p>
                     <form method="post" action="index.php">
                         <label for="school">Schule</label>
                         <input type="text" id="school" name="school">

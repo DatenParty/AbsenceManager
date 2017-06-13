@@ -28,7 +28,7 @@ function get_all($school) {
         foreach ($val as $key => $value) {
             if ($key == $school) {
                 $array = array_filter($value, function ($e) {
-                    return $e["status"] == "teacher" || $e["status"] == "admin";
+                    return $e["status"] == "teacher" || $e["status"] == "management";
                 });
             }
         }
