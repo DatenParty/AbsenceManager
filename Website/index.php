@@ -9,7 +9,7 @@
         <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
         <script>
             //red: #FC0025
-            //green: #3EDD60
+            //green: #37BA53
             $(document).ready(function () {
                 disable();
                 $("input:not(input[type='submit'])").on("input", function () {
@@ -39,7 +39,7 @@
         <style>
             body {
                 font-family: Roboto;
-                background: url("img/background.jpg");
+                background: url("img/background.jpg") no-repeat fixed;
                 background-size: cover;
                 color: white;
             }
@@ -53,7 +53,7 @@
                 height: 500px;
                 box-sizing: border-box;
                 padding: 20px;
-                margin: calc(50vh - 285px) auto 0 auto;
+                margin: calc(50vh - 230px) auto 0 auto;
             }
 
             input {
@@ -74,7 +74,7 @@
             }
 
             input[type='submit']:hover, input[type='button']:hover {
-                background-color: #3EDD60;
+                background-color: #37BA53;
                 border: none;
             }
 
@@ -135,7 +135,9 @@
                     }
                 } else {
             ?>
-                    <p style="color: #FC0025">Ihr Account konnte entweder nicht gefunden werden, oder Ihr Passwort war falsch.</p>
+                    <p style="color: #FC0025">
+                        Ihr Account konnte entweder nicht gefunden werden, oder Ihr Passwort war falsch.
+                    </p>
                     <form method="post" action="index.php">
                         <label for="school">Schule</label>
                         <input type="text" id="school" name="school">
